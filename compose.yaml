@@ -1,0 +1,89 @@
+version: "3.8"
+
+networks:
+  dev-network:
+    driver: bridge
+
+services:
+  rabbitmq3:
+    container_name: "rabbitmq3"
+    image: "rabbitmq:3-management-alpine"
+    ports:
+      - "5672:5672" # AMQP
+      - "15672:15672" # Web UI
+    environment:
+      RABBITMQ_DEFAULT_USER: "admin"
+      RABBITMQ_DEFAULT_PASS: "admin@123"
+
+  roder-booking-administrative-service:
+    container_name: "RideBooking.AdministrativeService"
+    build:
+      context: .
+      dockerfile: AdministrativeService/Dockerfile
+      args:
+        - configuration=Debug
+    ports:
+      - "8083:8080"
+    depends_on:
+      - "rider-db"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=rider-db;Database=administrative_db;Username=postgres;Password=admin@123
+    networks:
+      - dev-network
+    volumes:
+      - ~/.vsdbg:/remote_debugger:rw
+
+  rider-booking-customer-service:
+    container_name: "RideBooking.CustomerService"
+    build:
+      context: .
+      dockerfile: CustomerService/Dockerfile
+      args:
+        - configuration=Debug
+    ports:
+      - "8081:8080"
+    depends_on:
+      - "rider-db"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=rider-db;Database=customer_db;Username=postgres;Password=admin@123
+    networks:
+      - dev-network
+    volumes:
+      - ~/.vsdbg:/remote_debugger:rw
+
+  rider-booking-rider-service:
+    container_name: "RideBooking.RiderService"
+    build:
+      context: .
+      dockerfile: RiderService/Dockerfile
+      args:
+        - configuration=Debug
+    ports:
+      - "8082:8080"
+    depends_on:
+      - "rider-db"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=rider-db;Database=rider_db;Username=postgres;Password=admin@123
+    networks:
+      - dev-network
+    volumes:
+      - ~/.vsdbg:/remote_debugger:rw
+  
+  rider-db:
+    container_name: "RideBooking.Services.Database"
+    image: "postgres:alpine"
+    ports:
+      - "5454:5432"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "admin@123"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - dev-network
+
+volumes:
+  postgres-data:
