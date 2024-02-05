@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booking.RideBookingService"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booking.RideLoggingService", "Booking.RideLoggingService\Booking.RideLoggingService.csproj", "{735039BC-51D9-4151-95E0-A8A93E2CBF08}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booking.RebbitMqEvents", "Booking.RebbitMqEvents\Booking.RebbitMqEvents.csproj", "{B3723CBC-7792-4689-9319-2C31539E0EDE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{735039BC-51D9-4151-95E0-A8A93E2CBF08}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{735039BC-51D9-4151-95E0-A8A93E2CBF08}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{735039BC-51D9-4151-95E0-A8A93E2CBF08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3723CBC-7792-4689-9319-2C31539E0EDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3723CBC-7792-4689-9319-2C31539E0EDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3723CBC-7792-4689-9319-2C31539E0EDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3723CBC-7792-4689-9319-2C31539E0EDE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

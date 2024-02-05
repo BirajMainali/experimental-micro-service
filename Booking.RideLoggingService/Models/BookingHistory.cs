@@ -1,4 +1,4 @@
-﻿namespace Booking.RideLoggingSerivce.Models;
+﻿namespace Booking.RideLoggingService.Models;
 
 public class BookingHistory
 {

@@ -1,4 +1,4 @@
-﻿using Booking.RideLoggingSerivce.Models;
+﻿using Booking.RideLoggingService.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Booking.RideLoggingSerivce.Data;

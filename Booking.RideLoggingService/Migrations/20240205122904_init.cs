@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Booking.RideLoggingSerivce.Migrations
+namespace Booking.RideLoggingService.Migrations
 {
     /// <inheritdoc />
     public partial class init : Migration

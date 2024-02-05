@@ -90,9 +90,17 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Booking.RebbitMqEvents\Booking.RebbitMqEvents.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
       <Content Include="..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\" />
     </ItemGroup>
 
 </Project>

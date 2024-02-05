@@ -6,15 +6,26 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Booking.RideBookingService API", Version = "v1" }); });
+builder.Services.AddControllers();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1",
+        new OpenApiInfo { Title = "Booking.RideBookingService API", Version = "v1" });
+});
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddDbContext<RideBookingServiceDbContext>(o => { o.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")).UseLowerCaseNamingConvention(); });
+builder.Services.AddDbContext<RideBookingServiceDbContext>(o =>
+{
+    o.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
+        .UseLowerCaseNamingConvention();
+});
+
 builder.Services.AddScoped<DbContext, RideBookingServiceDbContext>();
 builder.Services.AddScoped<IMessagePublisherService, MessagePublisherService>();
 
 builder.Services.AddMassTransit(conf =>
 {
+    conf.SetKebabCaseEndpointNameFormatter();
     conf.UsingRabbitMq((context, cfg) =>
     {
         cfg.Host("host.docker.internal", "/", h =>
@@ -22,13 +33,17 @@ builder.Services.AddMassTransit(conf =>
             h.Username("admin");
             h.Password("admin");
         });
+        
+        cfg.ConfigureEndpoints(context);
     });
 });
 
+
+
 var app = builder.Build();
 
-app.Services.CreateScope().ServiceProvider.GetService<RideBookingServiceDbContext>()?.Database.Migrate();
-
+app.Services.CreateScope().ServiceProvider.GetService<RideBookingServiceDbContext>()?.Database
+    .Migrate();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -36,10 +51,12 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseSwagger();
-app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Booking.RideBookingService API V1"); });
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Booking.RideBookingService API V1");
+});
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
 app.UseRouting();
 
 app.MapControllerRoute(

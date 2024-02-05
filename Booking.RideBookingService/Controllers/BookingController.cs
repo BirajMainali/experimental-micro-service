@@ -2,6 +2,7 @@
 using Booking.BookingService.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using RideBooking.Events.Event;
 
 namespace Booking.BookingService.Controllers;
 
@@ -45,7 +46,11 @@ public class BookingController : ControllerBase
         };
         _context.Add(book);
         await _context.SaveChangesAsync();
-        await _messagePublisherService.PublishMessageAsync(book);
+        await _messagePublisherService.PublishMessageAsync(new BookingCreatedEvent()
+        {
+            Customer = book.Customer,
+            Date = book.Date
+        });
         return CreatedAtAction("GetBooking", new { id = book.Id }, book);
     }
 }

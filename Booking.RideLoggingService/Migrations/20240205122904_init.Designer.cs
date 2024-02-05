@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Booking.RideLoggingSerivce.Migrations
+namespace Booking.RideLoggingService.Migrations
 {
     [DbContext(typeof(RideLoggingServiceDbContext))]
     [Migration("20240205122904_init")]
