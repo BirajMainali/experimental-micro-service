@@ -1,10 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RiderService", "RiderService\RiderService.csproj", "{A2C23B88-BE7B-4594-94B0-DEE10C309ABD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booking.RiderService", "Booking.RiderService\Booking.RiderService.csproj", "{A2C23B88-BE7B-4594-94B0-DEE10C309ABD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerService", "CustomerService\CustomerService.csproj", "{D39E6683-1395-47AD-8664-6F01B73CBB29}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booking.RideBookingService", "Booking.RideBookingService\Booking.RideBookingService.csproj", "{D39E6683-1395-47AD-8664-6F01B73CBB29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdministrativeService", "AdministrativeService\AdministrativeService.csproj", "{735039BC-51D9-4151-95E0-A8A93E2CBF08}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booking.RideLoggingService", "Booking.RideLoggingService\Booking.RideLoggingService.csproj", "{735039BC-51D9-4151-95E0-A8A93E2CBF08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -15,11 +15,11 @@ services:
       - RABBITMQ_DEFAULT_USER=admin
       - RABBITMQ_DEFAULT_PASS=admin
 
-  roder-booking-administrative-service:
-    container_name: "RideBooking.AdministrativeService"
+  booking-logging-service:
+    container_name: "Booking.RideLoggingService"
     build:
       context: .
-      dockerfile: AdministrativeService/Dockerfile
+      dockerfile: Booking.RideLoggingService/Dockerfile
       args:
         - configuration=Debug
     ports:
@@ -28,17 +28,17 @@ services:
       - "rider-db"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Host=rider-db;Database=administrative_db;Username=postgres;Password=admin@123
+      - ConnectionStrings__DefaultConnection=Host=rider-db;Database=booking_logging_db;Username=postgres;Password=admin@123
     networks:
       - dev-network
     volumes:
       - ~/.vsdbg:/remote_debugger:rw
 
-  rider-booking-customer-service:
-    container_name: "RideBooking.CustomerService"
+  booking-booking-service:
+    container_name: "Booking.RideBookingService"
     build:
       context: .
-      dockerfile: CustomerService/Dockerfile
+      dockerfile: Booking.RideBookingService/Dockerfile
       args:
         - configuration=Debug
     ports:
@@ -47,17 +47,17 @@ services:
       - "rider-db"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Host=rider-db;Database=customer_db;Username=postgres;Password=admin@123
+      - ConnectionStrings__DefaultConnection=Host=rider-db;Database=booking_book_db;Username=postgres;Password=admin@123
     networks:
       - dev-network
     volumes:
       - ~/.vsdbg:/remote_debugger:rw
 
-  rider-booking-rider-service:
-    container_name: "RideBooking.RiderService"
+  booking-rider-service:
+    container_name: "Booking.RiderService"
     build:
       context: .
-      dockerfile: RiderService/Dockerfile
+      dockerfile: Booking.RiderService/Dockerfile
       args:
         - configuration=Debug
     ports:
@@ -66,14 +66,14 @@ services:
       - "rider-db"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Host=rider-db;Database=rider_db;Username=postgres;Password=admin@123
+      - ConnectionStrings__DefaultConnection=Host=rider-db;Database=booking_rider_db;Username=postgres;Password=admin@123
     networks:
       - dev-network
     volumes:
       - ~/.vsdbg:/remote_debugger:rw
   
   rider-db:
-    container_name: "RideBooking.Services.Database"
+    container_name: "RideBooking.Database.Postgres"
     image: "postgres:alpine"
     ports:
       - "5454:5432"

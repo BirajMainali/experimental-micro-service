@@ -7,7 +7,7 @@ foreach ($dir in $dirs) {
     Set-Location -Path $dir
 
     # Define the dotnet ef migrations add command as a string
-    $command = 'dotnet ef migrations add InitialCreate'
+    $command = 'dotnet ef migrations add init'
 
     # Run the command
     Invoke-Expression $command
