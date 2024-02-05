@@ -1,4 +1,6 @@
 using CustomerService.Data;
+using CustomerService.Services;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
@@ -13,12 +15,24 @@ builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<CustomerServiceDbContext>(o => { o.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")).UseLowerCaseNamingConvention(); });
 builder.Services.AddScoped<DbContext, CustomerServiceDbContext>();
+builder.Services.AddScoped<IMessagePublisherService, MessagePublisherService>();
+
+builder.Services.AddMassTransit(conf =>
+{
+    conf.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host("host.docker.internal", "/", h =>
+        {
+            h.Username("admin");
+            h.Password("admin");
+        });
+    });
+});
 
 var app = builder.Build();
 
-// app.Services.CreateScope().ServiceProvider.GetService<CustomerServiceDbContext>()?.Database.Migrate();
+app.Services.CreateScope().ServiceProvider.GetService<CustomerServiceDbContext>()?.Database.Migrate();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
