@@ -1,38 +1,36 @@
 using CustomerService.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "CustomerService API", Version = "v1" }); });
 
-builder.Services.AddDbContext<CustomerServiceDbContext>(o =>
-{
-    o.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")).UseLowerCaseNamingConvention();
-});
-
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddDbContext<CustomerServiceDbContext>(o => { o.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")).UseLowerCaseNamingConvention(); });
 builder.Services.AddScoped<DbContext, CustomerServiceDbContext>();
 
 var app = builder.Build();
 
-
-app.Services.CreateScope().ServiceProvider.GetService<CustomerServiceDbContext>()?.Database.Migrate();
+// app.Services.CreateScope().ServiceProvider.GetService<CustomerServiceDbContext>()?.Database.Migrate();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
+app.UseSwagger();
+app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "CustomerService API V1"); });
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
-app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
