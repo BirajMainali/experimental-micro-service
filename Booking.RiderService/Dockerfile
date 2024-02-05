@@ -7,7 +7,6 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 COPY ["Booking.RiderService/Booking.RiderService.csproj", "Booking.RiderService/"]
 COPY ["Booking.RebbitMqEvents/Booking.RebbitMqEvents.csproj", "Booking.RebbitMqEvents/"]
-COPY ["Booking.RideLoggingService/Booking.RideLoggingService.csproj", "Booking.RideLoggingService/"]
 RUN dotnet restore "Booking.RiderService/Booking.RiderService.csproj"
 COPY . .
 WORKDIR "/src/Booking.RiderService"
